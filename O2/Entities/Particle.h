@@ -1,5 +1,6 @@
 #ifndef ALI_O2_ENITIES_PARTICLE_H
 #define ALI_O2_ENITIES_PARTICLE_H
+#include <math.h>
 #include "../Components/Particle.h"
 #include "../ecs/Entity.h"
 

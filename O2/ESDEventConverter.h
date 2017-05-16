@@ -4,6 +4,7 @@
 #include "Entities/Particle.h"
 #include "Entities/Track.h"
 #include "Entities/Vertex.h"
+#include <vector>
 
 class AliESDEvent;
 class AliMCEvent;

@@ -76,12 +76,12 @@ set_target_properties(${MODULE}-object PROPERTIES COMPILE_DEFINITIONS $<TARGET_P
 target_include_directories(${MODULE} PUBLIC ${incdirs})
 
 # Additional compilation flags for the object
-set_target_properties(O2-object PROPERTIES COMPILE_FLAGS "-fopenmp")
+#set_target_properties(O2-object PROPERTIES COMPILE_FLAGS "-fopenmp")
 
 # System dependent: Modify the way the library is build
-if(${CMAKE_SYSTEM} MATCHES Darwin)
-    set_target_properties(O2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup -fopenmp")
-endif(${CMAKE_SYSTEM} MATCHES Darwin)
+#if(${CMAKE_SYSTEM} MATCHES Darwin)
+#    set_target_properties(O2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup -fopenmp")
+#endif(${CMAKE_SYSTEM} MATCHES Darwin)
 
 # Installation
 install(TARGETS ${MODULE}
