@@ -70,6 +70,7 @@ set(SRCS
     AliGenMUONCocktailpp.cxx
     AliGenMUONlib.cxx
     AliGenMUONLMR.cxx
+#    AliGenMuonUncorr.cxx
     AliGenPairFlat.cxx
     AliGenParam.cxx
     AliGenPHOSlib.cxx
@@ -135,6 +136,10 @@ install(TARGETS ${MODULE}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib)
 install(FILES ${HDRS} DESTINATION include)
-install(DIRECTORY dataCorrHF DESTINATION EVGEN)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/dataCorrHF)
+    install(DIRECTORY dataCorrHF DESTINATION EVGEN)
+elseif(FATAL_IF_MISSING)
+    message(FATAL_ERROR "dataCorrHF is missing")
+endif()
 
 message(STATUS "${MODULE} enabled")

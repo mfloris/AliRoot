@@ -99,6 +99,6 @@ install(TARGETS ${MODULE}
         LIBRARY DESTINATION lib)
 
 # Calib maps
-install(DIRECTORY maps DESTINATION TPC/${MODULE})
+#install(DIRECTORY maps DESTINATION TPC/${MODULE})
 
 install(FILES ${HDRS} DESTINATION include)

@@ -36,11 +36,6 @@ ClassImp(AliADCalibData);
 
 //________________________________________________________________
 AliADCalibData::AliADCalibData():
-  fLightYields(NULL),
-  fPMGainsA(NULL),
-  fPMGainsB(NULL),
-  fThrCalibA(NULL),
-  fThrCalibB(NULL),
   fBBAThreshold(0),
   fBBCThreshold(0) ,  
   fBGAThreshold(0) ,  
@@ -50,7 +45,12 @@ AliADCalibData::AliADCalibData():
   fMultADAThrLow(0) ,  
   fMultADAThrHigh(0) , 
   fMultADCThrLow(0) ,  
-  fMultADCThrHigh(0)
+  fMultADCThrHigh(0),
+  fLightYields(NULL),
+  fPMGainsA(NULL),
+  fPMGainsB(NULL),
+  fThrCalibA(NULL),
+  fThrCalibB(NULL)
 {
   // default constructor
   
@@ -102,11 +102,6 @@ void AliADCalibData::Reset()
 
 //________________________________________________________________
 AliADCalibData::AliADCalibData(const char* name) :
-  fLightYields(NULL),
-  fPMGainsA(NULL),
-  fPMGainsB(NULL),
-  fThrCalibA(NULL),
-  fThrCalibB(NULL),
   fBBAThreshold(0),
   fBBCThreshold(0) ,  
   fBGAThreshold(0) ,  
@@ -116,7 +111,12 @@ AliADCalibData::AliADCalibData(const char* name) :
   fMultADAThrLow(0) ,  
   fMultADAThrHigh(0) , 
   fMultADCThrLow(0) ,  
-  fMultADCThrHigh(0)
+  fMultADCThrHigh(0),
+  fLightYields(NULL),
+  fPMGainsA(NULL),
+  fPMGainsB(NULL),
+  fThrCalibA(NULL),
+  fThrCalibB(NULL)
 {
   // Constructor
   TString namst = "Calib_";

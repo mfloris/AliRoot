@@ -166,7 +166,7 @@ Bool_t AliADDataDCS::ProcessData(TMap& aliasMap){
     	CreateGraph(iAlias, iValue, times, values); // fill graphs 
 
   	// calculate mean and rms of the first two histos
-	Int_t iChannel	   = iAlias;	
+	//Int_t iChannel	   = iAlias;	
 	fMeanHV[iAlias]  = fHv[iAlias]->GetMean();
 	fWidthHV[iAlias] = fHv[iAlias]->GetRMS();
 

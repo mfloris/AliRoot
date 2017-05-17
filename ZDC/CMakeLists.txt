@@ -22,23 +22,27 @@ if(DA)
 endif(DA)
 
 install(DIRECTORY macros DESTINATION ZDC)
-install(FILES 
-  GlauberMCDist.root
-  GlauberMCHistos.root
-  PMTGainsdata.txt
-  SpectatorSignal.root
-  SpectatorsFromData.root
-  fragmSpecDataDriven.root
-  ZNsignalntu.root
-  ZPsignalntu.root
-  light22620362207s
-  light22620362208s
-  light22620362209s
-  light22620362210s
-  light22620552207s
-  light22620552208s
-  light22620552209s
-  light22620552210s
-  DESTINATION ZDC)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/GlauberMCDist.root)
+    install(FILES
+      GlauberMCDist.root
+      GlauberMCHistos.root
+      PMTGainsdata.txt
+      SpectatorSignal.root
+      SpectatorsFromData.root
+      fragmSpecDataDriven.root
+      ZNsignalntu.root
+      ZPsignalntu.root
+      light22620362207s
+      light22620362208s
+      light22620362209s
+      light22620362210s
+      light22620552207s
+      light22620552208s
+      light22620552209s
+      light22620552210s
+      DESTINATION ZDC)
+elseif(FATAL_IF_MISSING)
+    message(FATAL_ERROR "GlauberMCDist.root is missing")
+endif()
 
 message(STATUS "ZDC enabled")

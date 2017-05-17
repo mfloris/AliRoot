@@ -24,12 +24,10 @@ add_subdirectory(COMMONITSMFTBase)
 add_subdirectory(COMMONITSMFTSim)
 add_subdirectory(COMMONITSMFTRec)
 
-install(DIRECTORY misc DESTINATION ITSMFT/COMMONITSMFT)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/misc)
+    install(DIRECTORY misc DESTINATION ITSMFT/COMMONITSMFT)
+elseif(FATAL_IF_MISSING)
+    message(FATAL_ERROR "misc is missing")
+endif()
 
 message(STATUS "COMMONITSMFT from ITSMFT enabled")
-
-
-
-
-
-

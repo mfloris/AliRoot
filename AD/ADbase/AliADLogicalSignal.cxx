@@ -49,8 +49,8 @@ AliADLogicalSignal::AliADLogicalSignal(UShort_t profilClock, UInt_t delay, UInt_
 	Bool_t risingFound = kFALSE;
 	
 	for(Int_t i=0; i<5; i++) {
-		fClock[i+1] = (profilClock >> 4-i) & 0x1;
-		fClock[i+6] = (profilClock >> 4-i) & 0x1;
+          fClock[i+1] = ((profilClock >> 4)-i) & 0x1;
+          fClock[i+6] = ((profilClock >> 4)-i) & 0x1;
 		}
 	fClock[0] = (profilClock >> 0) & 0x1;
 	 
