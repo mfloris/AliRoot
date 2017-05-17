@@ -11,50 +11,52 @@
 # * appear in the supporting documentation. The authors make no claims     *
 # * about the suitability of this software for any purpose. It is          *
 # * provided "as is" without express or implied warranty.                  *
-# **************************************************************************/
+# **************************************************************************
 
-#Module
-set(MODULE TDPMjet)
+# Module
+set(MODULE pythia6)
 add_definitions(-D_MODULE_="${MODULE}")
 
 # Module include folder
-include_directories(${AliRoot_SOURCE_DIR}/${MODULE})
+include_directories(${AliRoot_SOURCE_DIR}/PYTHIA6/${MODULE})
 
-# Additional includes - alphabetical order except ROOT
+# Additional include folders in alphabetical order except ROOT
 include_directories(${ROOT_INCLUDE_DIR}
-                    ${AliRoot_SOURCE_DIR}/EVGEN
-                    ${AliRoot_SOURCE_DIR}/STEER/STEER
-                    ${AliRoot_SOURCE_DIR}/STEER/STEERBase
-)
+                   )
 
-# Sources - alphabetical order
-set(SRCS
-  TDPMjet.cxx
-  AliDpmJetRndm.cxx
-  AliGenDPMjet.cxx
-  AliIonPDGCodes.cxx
-)
+# Fortran sources
+set(FSRCS
+    pythia6_common_block_address.F
+    tpythia6_called_from_cc.F
+    pythia6214.f
+    pyevwt.f pydummy.f
+    pdf_alice.F
+   )
+
+# C sources
+set(CSRCS
+    main.c
+    pythia6_common_address.c
+   )
 
 # Headers from sources
 string(REPLACE ".cxx" ".h" HDRS "${SRCS}")
 
 # Generate the dictionary
 # It will create G_ARG1.cxx and G_ARG1.h / ARG1 = function first argument
-get_directory_property(incdirs INCLUDE_DIRECTORIES)
-generate_dictionary("${MODULE}" "${MODULE}LinkDef.h" "${HDRS}" "${incdirs}")
-
-if(DPMJET_FOUND)
-  # Use external DPMJET if found
-  link_directories(${DPMJET_LIBPATH})
-endif()
-
-# Add a library to the project using the specified source files
-add_library_tested(${MODULE} SHARED ${SRCS} G__${MODULE}.cxx)
+#get_directory_property(incdirs INCLUDE_DIRECTORIES)
+#generate_dictionary("${MODULE}" "${MODULE}LinkDef.h" "${HDRS}" "${incdirs}")
 
 # Generate the ROOT map
 # Dependecies
-set(LIBDEPS DPMJET EVGEN STEER STEERBase)
-generate_rootmap("${MODULE}" "${LIBDEPS}" "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE}LinkDef.h")
+set(LIBDEPS MathCore)
+# TO DO: Partial fix to enable the manual loading. Fix the dependecies!
+#generate_rootmap("${MODULE}" "${LIBDEPS}" "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE}LinkDef.h")
+
+
+# Add a library to the project using the specified source files
+#add_library_tested(${MODULE} SHARED ${SRCS} G__${MODULE}.cxx ${FSRCS} ${CSRCS})
+add_library_tested(${MODULE} SHARED ${FSRCS} ${CSRCS})
 
 # Additional compilation flags
 set_target_properties(${MODULE} PROPERTIES COMPILE_FLAGS "")
@@ -69,8 +71,7 @@ endif(${CMAKE_SYSTEM} MATCHES Darwin)
 
 # Installation
 install(TARGETS ${MODULE}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib)
-install(FILES ${HDRS} DESTINATION include)
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib)
 
-message(STATUS "TDPMjet enabled")
+install(FILES ${HDRS} DESTINATION include)

@@ -11,29 +11,41 @@
 # * appear in the supporting documentation. The authors make no claims     *
 # * about the suitability of this software for any purpose. It is          *
 # * provided "as is" without express or implied warranty.                  *
-# **************************************************************************/
+# **************************************************************************
 
-#Module
-set(MODULE TDPMjet)
+# Module
+set(MODULE qpythia)
 add_definitions(-D_MODULE_="${MODULE}")
 
 # Module include folder
-include_directories(${AliRoot_SOURCE_DIR}/${MODULE})
+include_directories(${AliRoot_SOURCE_DIR}/PYTHIA6/QPYTHIA)
 
-# Additional includes - alphabetical order except ROOT
+# Additional include folders in alphabetical order except ROOT
 include_directories(${ROOT_INCLUDE_DIR}
-                    ${AliRoot_SOURCE_DIR}/EVGEN
-                    ${AliRoot_SOURCE_DIR}/STEER/STEER
-                    ${AliRoot_SOURCE_DIR}/STEER/STEERBase
-)
+                    ${AliRoot_SOURCE_DIR}/FASTSIM
+                    ${AliRoot_SOURCE_DIR}/PYTHIA6/pythia6
+                   )
 
-# Sources - alphabetical order
+# Sources in alphabetical order
 set(SRCS
-  TDPMjet.cxx
-  AliDpmJetRndm.cxx
-  AliGenDPMjet.cxx
-  AliIonPDGCodes.cxx
-)
+    AliQPythiaWrapper.cxx
+   )
+
+# Fortran sources
+set(FSRCS
+    pythia6_common_block_address.F
+    pythia6_called_from_cc.F
+    pythia-6.4.14.f
+    pyquen1_5.F
+    q-pyshow.1.2.F
+    ${AliRoot_SOURCE_DIR}/PYTHIA6/pythia6/pyevwt.f
+   )
+
+# C sources
+set(CSRCS
+    main.c
+    pythia6_common_address.c
+   )
 
 # Headers from sources
 string(REPLACE ".cxx" ".h" HDRS "${SRCS}")
@@ -41,20 +53,17 @@ string(REPLACE ".cxx" ".h" HDRS "${SRCS}")
 # Generate the dictionary
 # It will create G_ARG1.cxx and G_ARG1.h / ARG1 = function first argument
 get_directory_property(incdirs INCLUDE_DIRECTORIES)
-generate_dictionary("${MODULE}" "${MODULE}LinkDef.h" "${HDRS}" "${incdirs}")
-
-if(DPMJET_FOUND)
-  # Use external DPMJET if found
-  link_directories(${DPMJET_LIBPATH})
-endif()
-
-# Add a library to the project using the specified source files
-add_library_tested(${MODULE} SHARED ${SRCS} G__${MODULE}.cxx)
+generate_dictionary("${MODULE}" "qpythiaLinkDef.h" "${HDRS}" "${incdirs}")
 
 # Generate the ROOT map
 # Dependecies
-set(LIBDEPS DPMJET EVGEN STEER STEERBase)
-generate_rootmap("${MODULE}" "${LIBDEPS}" "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE}LinkDef.h")
+set(LIBDEPS FASTSIM microcern)
+# TO DO: temporary fix: removing the rootmaps to enable the manual loading. Fix the dependecies!
+#generate_rootmap("${MODULE}" "${LIBDEPS}" "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE}LinkDef.h")
+
+
+# Add a library to the project using the specified source files
+add_library_tested(${MODULE} SHARED ${SRCS} G__${MODULE}.cxx ${FSRCS} ${CSRCS})
 
 # Additional compilation flags
 set_target_properties(${MODULE} PROPERTIES COMPILE_FLAGS "")
@@ -71,6 +80,6 @@ endif(${CMAKE_SYSTEM} MATCHES Darwin)
 install(TARGETS ${MODULE}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib)
-install(FILES ${HDRS} DESTINATION include)
 
-message(STATUS "TDPMjet enabled")
+install(FILES ${HDRS} DESTINATION include)
+install(FILES qgrid DESTINATION PYTHIA6/QPYTHIA)
