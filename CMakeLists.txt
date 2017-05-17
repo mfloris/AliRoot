@@ -112,6 +112,10 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
   set(CMAKE_SHARED_LIBRARY_SUFFIX .so)
 endif (NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 
+# Boost is needed for the O2 developements
+find_package(Boost 1.60 COMPONENTS iostreams)
+
+
 # Optional: Doxygen for reference doc generation
 find_package(Doxygen)
 if(DOXYGEN_FOUND AND DOXYGEN_DOT_FOUND)

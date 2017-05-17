@@ -28,6 +28,10 @@ include_directories(${ROOT_INCLUDE_DIR}
                     ${AliRoot_SOURCE_DIR}/STEER/STEER
 		    ${AliRoot_SOURCE_DIR}/RAW/dateStream)
 
+
+# MF: not sure if this is really needed
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
 # Sources, globbed
 #file(GLOB SRCS "*.cxx")
 set(SRCS
@@ -54,7 +58,7 @@ set(ALIROOT_DEPENDENCIES ANALYSISalice STEER AOD ESD)
 
 # Generate the ROOT map
 # Dependecies
-set(LIBDEPS ${ALIROOT_DEPENDENCIES} ${ROOT_DEPENDENCIES})
+set(LIBDEPS ${ALIROOT_DEPENDENCIES} ${ROOT_DEPENDENCIES} Boost iostrems)
 generate_rootmap("O2" "${LIBDEPS}" "${AliRoot_SOURCE_DIR}/${MODULE}LinkDef.h")
 
 # Generate a PARfile target for this library
@@ -66,7 +70,7 @@ add_library(${MODULE}-object OBJECT ${SRCS} G__${MODULE}.cxx)
 
 # Add a library to the project using the object
 add_library(${MODULE} SHARED $<TARGET_OBJECTS:O2-object>)
-target_link_libraries(${MODULE} ${ALIROOT_DEPENDENCIES} ${ROOT_DEPENDENCIES})
+target_link_libraries(${MODULE} ${ALIROOT_DEPENDENCIES} ${ROOT_DEPENDENCIES} ${Boost_LIBRARIES})
 
 # Setting the correct headers for the object as gathered from the dependencies
 target_include_directories(${MODULE}-object PUBLIC $<TARGET_PROPERTY:${MODULE},INCLUDE_DIRECTORIES>)
